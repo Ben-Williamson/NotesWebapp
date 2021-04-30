@@ -1,0 +1,86 @@
+<html>
+
+    <body>
+        <button onclick="getFirstNote()">Log 1st Note</button>
+        <button onclick="deleteNote()">Delete Note with id of 3</button>
+        <button onclick="addNote2()">Add New Note</button>
+        <button onclick="updateNote()"> Update 10th Note</button>
+    </body>
+
+    <script>
+
+        // setInterval(function () {
+        //     fetch("https://benwilliamson.org:5000/getNote/1").then(function(response) {
+        //         return response.json();
+        //     })
+        //     .then(function(j) {
+        //         console.log(j);
+        //     })
+        // }, 1000);
+
+        function getFirstNote() {
+            console.log("Getting note");
+            fetch("https://benwilliamson.org:5000/getNotes").then(function(response) {
+                console.log("fetched")
+                return response.json();
+            })
+            .then(function(j) {
+                console.log(j);
+            })
+        }
+
+        function deleteNote() {
+            fetch("https://benwilliamson.org:5000/deleteNote/3").then(function(response) {
+                return response.json()
+            })
+            .then(function(j) {
+                console.log(j);
+            })
+        }
+
+        function addNote() {
+            // fetch("https://benwilliamson.org:5000/addNote/test added title|test added content|test added description").then(function(response) {
+            //     return response.json()
+            // })
+            // .then(function(j) {
+            //     console.log(j);
+            // })
+
+            let data = {element: "barium"};
+
+            fetch("https://benwilliamson.org:5000/addNote", {
+            method: "POST", 
+            body: JSON.stringify(data)
+            }).then(res => {
+            console.log("Request complete! response:", res);
+            });
+        }
+
+        function updateNote() {
+            fetch("https://benwilliamson.org:5000/updateNote/10|test added title changed|test added content|test added description").then(function(response) {
+                return response.json()
+            })
+            .then(function(j) {
+                console.log(j);
+            })
+        }
+
+        function addNote2() {
+            console.log("Adding")
+            var xhr = new XMLHttpRequest();
+            var url = "https://benwilliamson.org:5000/addNote";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var json = JSON.parse(xhr.responseText);
+                    console.log(json.title, json.content, json.description, json.date);
+                }
+            };
+            var data = JSON.stringify({"title": "test added title JSON", "content": "JSON added content", "description": "JSON added description"})
+            xhr.send(data);
+        }
+
+    </script>
+
+</html>
